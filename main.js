@@ -1,5 +1,6 @@
 const { app, BrowserWindow, shell, session, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 // Identify as the stock Chromium this app is built on (no "Electron/x" token).
 const plat = process.platform === 'darwin' ? 'Macintosh; Intel Mac OS X 10_15_7'
@@ -45,9 +46,15 @@ ipcMain.handle('clear-profile', async (_e, id) => {
 });
 
 function createWindow() {
+  const logoJfif = path.join(__dirname, 'logo.jfif');
+  const localLogo = path.join(__dirname, 'logo.jpg');
+  const uploadedLogo = path.join(app.getPath('home'), '.gemini', 'antigravity-ide', 'brain', '75ca78da-6e1e-42a2-9a73-a703f729daff', '.user_uploaded', 'media_1791442412692.jpg');
+  const logoFile = fs.existsSync(logoJfif) ? logoJfif : (fs.existsSync(localLogo) ? localLogo : (fs.existsSync(uploadedLogo) ? uploadedLogo : undefined));
+
   const win = new BrowserWindow({
     width: 1500, height: 920, minWidth: 960, minHeight: 600,
     title: 'Sudu Nona', autoHideMenuBar: true, backgroundColor: '#303030',
+    icon: logoFile,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       webviewTag: true, contextIsolation: true, nodeIntegration: false, sandbox: true
