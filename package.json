@@ -4,6 +4,12 @@
   "version": "0.1.0",
   "description": "Claude and ChatGPT in one window, with separate profiles",
   "main": "main.js",
-  "scripts": { "start": "electron ." },
-  "devDependencies": { "electron": "latest" }
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "^26.15.3"
+  }
 }
